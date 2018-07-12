@@ -1,0 +1,19 @@
+{
+  "name": "virtualtable",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:script": "tsc --watch",
+    "build:style": "node-sass --watch index.scss index.css",
+    "start": "http-server"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "http-server": "^0.11.1",
+    "node-sass": "^4.9.2",
+    "typescript": "^2.9.2"
+  }
+}
