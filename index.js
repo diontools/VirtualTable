@@ -65,8 +65,7 @@ var VTable = /** @class */ (function () {
         var leftPos = 0;
         for (var i = 0; i < this.columns.length; i++) {
             var col = this.columns[i];
-            var item = this.cellPool.rent();
-            var cell = item.value.element;
+            var cell = document.createElement('div');
             cell.className = 'cell hrow';
             cell.style.left = leftPos + 'px';
             cell.style.width = col.width + 'px';
@@ -166,6 +165,8 @@ var VTable = /** @class */ (function () {
                     this.visibleCellsSwap.push(this.visibleCells[i]);
                 }
             }
+            var processedStartRow = startRow;
+            var processedEndRow = endRow;
             // up startRow
             if (startRow < this.visibleStartRow) {
                 console.log('up');
@@ -174,6 +175,7 @@ var VTable = /** @class */ (function () {
                         this.updateCell(r, c);
                     }
                 }
+                processedStartRow = this.visibleStartRow < endRow ? this.visibleStartRow : endRow;
             }
             // down endRow
             if (this.visibleEndRow < endRow) {
@@ -183,12 +185,13 @@ var VTable = /** @class */ (function () {
                         this.updateCell(r, c);
                     }
                 }
+                processedEndRow = this.visibleEndRow > startRow ? this.visibleEndRow : startRow;
             }
             // left
             if (startColumn < this.visibleStartColumn) {
                 console.log('left');
                 for (var c = startColumn; c < this.visibleStartColumn && c <= endColumn; c++) {
-                    for (var r = startRow; r <= endRow; r++) {
+                    for (var r = processedStartRow; r <= processedEndRow; r++) {
                         this.updateCell(r, c);
                     }
                 }
@@ -197,20 +200,20 @@ var VTable = /** @class */ (function () {
             if (this.visibleEndColumn < endColumn) {
                 console.log('right');
                 for (var c = endColumn; c > this.visibleEndColumn && c >= startColumn; c--) {
-                    for (var r = startRow; r <= endRow; r++) {
+                    for (var r = processedStartRow; r <= processedEndRow; r++) {
                         this.updateCell(r, c);
                     }
                 }
             }
         }
         // clear hidden cells
-        for (var i = 0; i < this.hiddenCells.length; i++) {
-            var info = this.hiddenCells[i];
-            console.log('removeChild', info.row, info.column);
-            this.tableCells.removeChild(info.element);
-            this.cellPool.returnById(info.id);
-        }
-        this.hiddenCells.length = 0;
+        // for (let i = 0; i < this.hiddenCells.length; i++) {
+        //     let info = this.hiddenCells[i];
+        //     console.log('removeChild', info.row, info.column);
+        //     this.tableCells.removeChild(info.element);
+        //     this.cellPool.returnById(info.id);
+        // }
+        //this.hiddenCells.length = 0;
         var vc = this.visibleCells;
         this.visibleCells = this.visibleCellsSwap;
         this.visibleCellsSwap = vc;
@@ -255,7 +258,7 @@ var VTable = /** @class */ (function () {
 }());
 var columns = [];
 for (var i = 0; i < 1000; i++) {
-    columns.push({ width: 100, name: i.toString() });
+    columns.push({ width: Math.random() * 50 + 50, name: i.toString() });
 }
 var vTableDiv = document.getElementById("vtable");
 var vTable = new VTable(vTableDiv, columns /*[

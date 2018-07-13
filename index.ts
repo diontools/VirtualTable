@@ -117,8 +117,7 @@ class VTable {
         let leftPos = 0;
         for (let i = 0; i < this.columns.length; i++) {
             let col = this.columns[i];
-            let item = this.cellPool.rent();
-            let cell = item.value.element;
+            let cell = document.createElement('div');
             cell.className = 'cell hrow';
             cell.style.left = leftPos + 'px';
             cell.style.width = col.width + 'px';
@@ -226,6 +225,9 @@ class VTable {
                 }
             }
 
+            let processedStartRow = startRow;
+            let processedEndRow = endRow;
+
             // up startRow
             if (startRow < this.visibleStartRow) {
                 console.log('up');
@@ -234,6 +236,7 @@ class VTable {
                         this.updateCell(r, c);
                     }
                 }
+                processedStartRow = this.visibleStartRow < endRow ? this.visibleStartRow : endRow;
             }
 
             // down endRow
@@ -244,13 +247,14 @@ class VTable {
                         this.updateCell(r, c);
                     }
                 }
+                processedEndRow = this.visibleEndRow > startRow ? this.visibleEndRow : startRow;
             }
 
             // left
             if (startColumn < this.visibleStartColumn) {
                 console.log('left');
                 for (let c = startColumn; c < this.visibleStartColumn && c <= endColumn; c++) {
-                    for (let r = startRow; r <= endRow; r++) {
+                    for (let r = processedStartRow; r <= processedEndRow; r++) {
                         this.updateCell(r, c);
                     }
                 }
@@ -260,7 +264,7 @@ class VTable {
             if (this.visibleEndColumn < endColumn) {
                 console.log('right');
                 for (let c = endColumn; c > this.visibleEndColumn && c >= startColumn; c--) {
-                    for (let r = startRow; r <= endRow; r++) {
+                    for (let r = processedStartRow; r <= processedEndRow; r++) {
                         this.updateCell(r, c);
                     }
                 }
@@ -268,14 +272,14 @@ class VTable {
         }
 
         // clear hidden cells
-        for (let i = 0; i < this.hiddenCells.length; i++) {
-            let info = this.hiddenCells[i];
-            console.log('removeChild', info.row, info.column);
-            this.tableCells.removeChild(info.element);
-            this.cellPool.returnById(info.id);
-        }
+        // for (let i = 0; i < this.hiddenCells.length; i++) {
+        //     let info = this.hiddenCells[i];
+        //     console.log('removeChild', info.row, info.column);
+        //     this.tableCells.removeChild(info.element);
+        //     this.cellPool.returnById(info.id);
+        // }
 
-        this.hiddenCells.length = 0;
+        //this.hiddenCells.length = 0;
 
         let vc = this.visibleCells;
         this.visibleCells = this.visibleCellsSwap;
@@ -326,7 +330,7 @@ class VTable {
 
 let columns: Column[] = [];
 for (let i = 0; i < 1000; i++) {
-    columns.push({ width: 100, name: i.toString() });
+    columns.push({ width: Math.random() * 50 + 50, name: i.toString() });
 }
 
 let vTableDiv = <HTMLDivElement>document.getElementById("vtable");
