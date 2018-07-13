@@ -4,7 +4,8 @@
         "module": "commonjs",
         "noImplicitAny": true,
         "removeComments": false,
-        "sourceMap": true
+        "sourceMap": true,
+        "inlineSourceMap": true
     },
     "files": [
         "index.ts"

@@ -271,16 +271,6 @@ class VTable {
             }
         }
 
-        // clear hidden cells
-        // for (let i = 0; i < this.hiddenCells.length; i++) {
-        //     let info = this.hiddenCells[i];
-        //     console.log('removeChild', info.row, info.column);
-        //     this.tableCells.removeChild(info.element);
-        //     this.cellPool.returnById(info.id);
-        // }
-
-        //this.hiddenCells.length = 0;
-
         let vc = this.visibleCells;
         this.visibleCells = this.visibleCellsSwap;
         this.visibleCellsSwap = vc;
@@ -329,8 +319,8 @@ class VTable {
 }
 
 let columns: Column[] = [];
-for (let i = 0; i < 1000; i++) {
-    columns.push({ width: Math.random() * 50 + 50, name: i.toString() });
+for (let i = 0; i < 100; i++) {
+    columns.push({ width: Math.floor(Math.random() * 50 + 50), name: i.toString() });
 }
 
 let vTableDiv = <HTMLDivElement>document.getElementById("vtable");
