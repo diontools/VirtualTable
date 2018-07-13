@@ -1,4 +1,4 @@
-interface Column {
+interface VTableColumn {
     name: string;
     width: number;
 }
@@ -71,7 +71,7 @@ class VTable {
     private tableCells: HTMLDivElement;
     private placement: HTMLDivElement;
     private headerHeight: number;
-    private columns: Column[];
+    private columns: VTableColumn[];
     private rowCount: number;
     private rowHeight: number;
     private getValue: getValueCallback;
@@ -100,7 +100,7 @@ class VTable {
         };
     });
 
-    constructor(vTable: HTMLDivElement, headerHeight: number, columns: Column[], rowCount: number, rowHeight: number, getValue: getValueCallback) {
+    constructor(vTable: HTMLDivElement, headerHeight: number, columns: VTableColumn[], rowCount: number, rowHeight: number, getValue: getValueCallback) {
         this.vTable = vTable;
         this.headerHeight = headerHeight;
         this.columns = columns;
@@ -322,7 +322,7 @@ class VTable {
     }
 }
 
-let columns: Column[] = [];
+let columns: VTableColumn[] = [];
 for (let i = 0; i < 10; i++) {
     columns.push({ width: Math.floor(Math.random() * 50 + 50), name: i.toString() });
 }
