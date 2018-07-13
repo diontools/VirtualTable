@@ -4,6 +4,7 @@ interface Column {
 }
 
 interface ColumnValue {
+    name: string;
     width: number;
     left: number;
 }
@@ -69,7 +70,7 @@ class VTable {
     private tableHeaders: HTMLDivElement;
     private tableCells: HTMLDivElement;
     private placement: HTMLDivElement;
-    private style: HTMLStyleElement;
+    private headerHeight: number;
     private columns: Column[];
     private rowCount: number;
     private rowHeight: number;
@@ -99,8 +100,9 @@ class VTable {
         };
     });
 
-    constructor(vTable: HTMLDivElement, columns: Column[], rowCount: number, rowHeight: number, getValue: getValueCallback) {
+    constructor(vTable: HTMLDivElement, headerHeight: number, columns: Column[], rowCount: number, rowHeight: number, getValue: getValueCallback) {
         this.vTable = vTable;
+        this.headerHeight = headerHeight;
         this.columns = columns;
         this.rowCount = rowCount;
         this.rowHeight = rowHeight;
@@ -111,6 +113,7 @@ class VTable {
 
         this.tableHeaders = document.createElement('div');
         this.tableHeaders.className = 'v-table-headers';
+        this.tableHeaders.style.height = this.headerHeight + 'px';
 
         this.columnValues = [];
         let leftPos = 0;
@@ -120,9 +123,9 @@ class VTable {
             cell.className = 'cell hrow';
             cell.style.left = leftPos + 'px';
             cell.style.width = col.width + 'px';
-            cell.style.height = this.rowHeight + 'px';
+            cell.style.height = this.headerHeight + 'px';
             cell.textContent = col.name;
-            this.columnValues.push({ width: col.width, left: leftPos });
+            this.columnValues.push({ name: col.name, width: col.width, left: leftPos });
             this.tableHeaders.appendChild(cell);
             leftPos += col.width;
         }
@@ -312,7 +315,7 @@ class VTable {
 
     private resize() {
         this.vTable.style.height = this._height + 'px';
-        this.tableCells.style.height = this._height - this.rowHeight + 'px';
+        this.tableCells.style.height = this._height - this.headerHeight + 'px';
         let scrollbarWidth = this.vTable.clientWidth - this.tableCells.clientWidth;
         this.tableHeaders.style.marginRight = scrollbarWidth + 'px';
         this.updateCells();
@@ -325,7 +328,7 @@ for (let i = 0; i < 10; i++) {
 }
 
 let vTableDiv = <HTMLDivElement>document.getElementById("vtable");
-let vTable = new VTable(vTableDiv, columns /*[
+let vTable = new VTable(vTableDiv, 100, columns /*[
     { width: 100, name: 'abc' },
     { width: 200, name: 'xyz' },
     { width: 50, name: '123' },
@@ -333,7 +336,7 @@ let vTable = new VTable(vTableDiv, columns /*[
         return r + '-' + c;
     });
 
-function resize() { vTable.height = window.innerHeight - 25; }
+function resize() { vTable.height = window.innerHeight - 20; }
 
 window.onresize = resize;
 resize();

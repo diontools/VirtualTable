@@ -21,7 +21,6 @@ input {
 .v-table-headers {
   position: relative;
   top: 0;
-  height: 25px;
   background-color: rgba(green, 0.2);
   overflow: hidden;
 }
@@ -29,7 +28,6 @@ input {
 .v-table-cells {
   position: relative;
   top: 0;
-  height: 175px;
   background-color: rgba(red, 0.2);
   overflow: auto;
 }
@@ -46,6 +44,7 @@ input {
   position: absolute;
   overflow: hidden;
   text-align: center;
+  vertical-align: middle;
 }
 
 // .column0 {

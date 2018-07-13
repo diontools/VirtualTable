@@ -17,14 +17,12 @@ input {
 .v-table-headers {
   position: relative;
   top: 0;
-  height: 25px;
   background-color: rgba(0, 128, 0, 0.2);
   overflow: hidden; }
 
 .v-table-cells {
   position: relative;
   top: 0;
-  height: 175px;
   background-color: rgba(255, 0, 0, 0.2);
   overflow: auto; }
 
@@ -36,4 +34,5 @@ input {
   background-color: #eee;
   position: absolute;
   overflow: hidden;
-  text-align: center; }
+  text-align: center;
+  vertical-align: middle; }
