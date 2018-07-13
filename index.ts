@@ -111,7 +111,6 @@ class VTable {
 
         this.tableHeaders = document.createElement('div');
         this.tableHeaders.className = 'v-table-headers';
-        this.tableHeaders.style.marginRight = '17px';
 
         this.columnValues = [];
         let leftPos = 0;
@@ -314,12 +313,14 @@ class VTable {
     private resize() {
         this.vTable.style.height = this._height + 'px';
         this.tableCells.style.height = this._height - this.rowHeight + 'px';
+        let scrollbarWidth = this.vTable.clientWidth - this.tableCells.clientWidth;
+        this.tableHeaders.style.marginRight = scrollbarWidth + 'px';
         this.updateCells();
     }
 }
 
 let columns: Column[] = [];
-for (let i = 0; i < 100; i++) {
+for (let i = 0; i < 10; i++) {
     columns.push({ width: Math.floor(Math.random() * 50 + 50), name: i.toString() });
 }
 
@@ -328,7 +329,7 @@ let vTable = new VTable(vTableDiv, columns /*[
     { width: 100, name: 'abc' },
     { width: 200, name: 'xyz' },
     { width: 50, name: '123' },
-]*/, 10000, 25, (r, c) => {
+]*/, 10, 25, (r, c) => {
         return r + '-' + c;
     });
 

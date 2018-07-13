@@ -34,4 +34,6 @@ input {
 
 .cell {
   background-color: #eee;
-  position: absolute; }
+  position: absolute;
+  overflow: hidden;
+  text-align: center; }
